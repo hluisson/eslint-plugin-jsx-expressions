@@ -1,4 +1,4 @@
-# Strict JSX expressions for safe conditional renders. (strict-jsx-expressions)
+# Strict JSX expressions for safe conditional renders. (strict-logical-expressions)
 
 Please describe the origin of the rule here.
 
@@ -9,17 +9,13 @@ This rule aims to...
 Examples of **incorrect** code for this rule:
 
 ```js
-
 // fill me in
-
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
-
 // fill me in
-
 ```
 
 ### Options
