@@ -1,13 +1,3 @@
-/**
- * @fileoverview Strict JSX expressions for safe conditional renders.
- * @author Heather Persson
- */
-"use strict";
-
-//------------------------------------------------------------------------------
-// Requirements
-//------------------------------------------------------------------------------
-
 import { ESLintUtils } from "@typescript-eslint/experimental-utils";
 import rule from "../../../lib/rules/strict-logical-expressions";
 import { getFixturesRootDir } from "../util";

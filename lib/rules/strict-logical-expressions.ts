@@ -1,8 +1,3 @@
-/**
- * @fileoverview Strict logical expressions in JSX for safe conditional renders.
- * @author Heather Persson
- */
-
 import { ESLintUtils, TSESTree } from "@typescript-eslint/experimental-utils";
 import * as tsutils from "tsutils";
 import * as ts from "typescript";

@@ -1,11 +1,5 @@
-/**
- * @fileoverview Rules for safe logical expressions in JSX
- * @author Heather Persson
- */
+import rules from "./rules";
 
-//------------------------------------------------------------------------------
-// Requirements
-//------------------------------------------------------------------------------
-
-import requireIndex from "requireindex";
-export const rules = requireIndex(__dirname + "/rules");
+export = {
+  rules,
+};
