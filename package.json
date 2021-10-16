@@ -13,6 +13,12 @@
     "prepublish": "tsc -b tsconfig.build.json",
     "test": "jest"
   },
+  "files": [
+    "dist",
+    "docs",
+    "package.json",
+    "README.md"
+  ],
   "dependencies": {
     "@jest/types": "^27.2.5",
     "@typescript-eslint/experimental-utils": "^5.0.0",
