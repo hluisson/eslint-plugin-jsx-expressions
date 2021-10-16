@@ -10,7 +10,7 @@
   "author": "Heather Persson",
   "main": "dist/index.js",
   "scripts": {
-    "prepublish": "tsc -b tsconfig.build.json",
+    "build": "tsc -b tsconfig.build.json",
     "test": "jest"
   },
   "files": [
