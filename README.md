@@ -31,11 +31,11 @@ Then configure the rules you want to use under the rules section.
 ```json
 {
   "rules": {
-    "jsx-expressions/strict-logical-expressions": 2
+    "jsx-expressions/strict-logical-expressions": "error"
   }
 }
 ```
 
 ## Supported Rules
 
-- Fill in provided rules here
+- [jsx-expressions/strict-logical-expressions](https://github.com/hpersson/eslint-plugin-jsx-expressions/blob/master/docs/rules/strict-logical-expressions.md): Enforces logical "&&" expressions do not use potentially falsey numbers or strings.
