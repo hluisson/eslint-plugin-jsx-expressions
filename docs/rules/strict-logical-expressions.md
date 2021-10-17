@@ -2,7 +2,8 @@
 
 Forbids the usage of potentially falsey string or number values in logical && expressions.
 Oftentimes, these logical expressions are used in jsx to enable conditional rendering behavior.
-However, one can encounter unexpected behavior when a 0 or empty string values is used as the left side of an expression and is returned as the result of the expression.
+
+However, one can encounter unexpected behavior when a 0 or empty string values is returned as the result of the expression and rendered accidentally.
 
 ## Rule Details
 
@@ -58,6 +59,7 @@ defaultOptions: [
 
 ## Further Reading
 
+- [React docs on conditional rendering](https://reactjs.org/docs/conditional-rendering.html#inline-if-with-logical--operator)
 - [Conditional rendering in React Native may crash your app](https://koprowski.it/2020/conditional-rendering-react-native-text-crash/)
 - https://github.com/facebook/react/blob/95a313ec0b957f71798a69d8e83408f40e76765b/packages/react-reconciler/src/ReactChildFiber.js#L461
 - https://github.com/yannickcr/eslint-plugin-react/issues/2073
