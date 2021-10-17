@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-jsx-expressions",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Rules for safe logical expressions in JSX",
   "keywords": [
     "eslint",
@@ -9,6 +9,10 @@
   ],
   "author": "Heather Persson",
   "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hpersson/eslint-plugin-jsx-expressions.git"
+  },  
   "scripts": {
     "build": "tsc -b tsconfig.build.json",
     "test": "jest"
