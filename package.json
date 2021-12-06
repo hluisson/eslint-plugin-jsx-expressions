@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-jsx-expressions",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Rules for safe logical expressions in JSX",
   "keywords": [
     "eslint",
