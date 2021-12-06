@@ -81,6 +81,20 @@ export default createRule<Options, MessageIds>({
       }
     }
 
+    function checkAndReportIdentifier(
+      node: TSESTree.Identifier,
+      fixNode: TSESTree.Expression
+    ) {
+      const errorId = checkIdentifier(node);
+      if (errorId) {
+        context.report({
+          node,
+          messageId: errorId,
+          fix: (fixer) => fixer.insertTextBefore(fixNode, "!!"),
+        });
+      }
+    }
+
     function checkLogicalExpression(
       expressionNode: TSESTree.LogicalExpression,
       checkRightNode: boolean
@@ -96,14 +110,7 @@ export default createRule<Options, MessageIds>({
       if (leftNode.type === TSESTree.AST_NODE_TYPES.LogicalExpression) {
         checkLogicalExpression(leftNode, true);
       } else if (leftNode.type === TSESTree.AST_NODE_TYPES.Identifier) {
-        const errorId = checkIdentifier(leftNode);
-        if (errorId) {
-          context.report({
-            node: expressionNode.left,
-            messageId: errorId,
-            fix: (fixer) => fixer.insertTextBefore(expressionNode.left, "!!"),
-          });
-        }
+        checkAndReportIdentifier(leftNode, expressionNode.left);
       }
 
       if (checkRightNode) {
@@ -116,15 +123,7 @@ export default createRule<Options, MessageIds>({
         }
 
         if (rightNode.type === TSESTree.AST_NODE_TYPES.Identifier) {
-          const errorId = checkIdentifier(rightNode);
-          if (errorId) {
-            context.report({
-              node: expressionNode.right,
-              messageId: errorId,
-              fix: (fixer) =>
-                fixer.insertTextBefore(expressionNode.right, "!!"),
-            });
-          }
+          checkAndReportIdentifier(rightNode, expressionNode.right);
         }
       }
     }
