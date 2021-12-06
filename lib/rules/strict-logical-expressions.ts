@@ -49,7 +49,9 @@ export default createRule<Options, MessageIds>({
     const parserServices = ESLintUtils.getParserServices(context);
     const typeChecker = parserServices.program.getTypeChecker();
 
-    function checkIdentifier(node: TSESTree.Identifier) {
+    function checkIdentifier(
+      node: TSESTree.Identifier
+    ): MessageIds | undefined {
       const tsNode = parserServices.esTreeNodeToTSNodeMap.get(node);
       const types = tsutils.unionTypeParts(
         getConstrainedTypeAtLocation(typeChecker, tsNode)
@@ -62,11 +64,7 @@ export default createRule<Options, MessageIds>({
       );
 
       if (!options.allowString && hasPotentiallyFalseyString) {
-        context.report({
-          node,
-          messageId: "conditionErrorFalseyString",
-          fix: (fixer) => fixer.insertTextBefore(node, "!!"),
-        });
+        return "conditionErrorFalseyString";
       }
 
       const hasPotentiallyFalseyNumber = types.some(
@@ -79,11 +77,7 @@ export default createRule<Options, MessageIds>({
       );
 
       if (!options.allowNumber && hasPotentiallyFalseyNumber) {
-        context.report({
-          node,
-          messageId: "conditionErrorFalseyNumber",
-          fix: (fixer) => fixer.insertTextBefore(node, "!!"),
-        });
+        return "conditionErrorFalseyNumber";
       }
     }
 
@@ -91,21 +85,47 @@ export default createRule<Options, MessageIds>({
       expressionNode: TSESTree.LogicalExpression,
       checkRightNode: boolean
     ) {
+      let leftNode = expressionNode.left;
       if (
-        expressionNode.left.type === TSESTree.AST_NODE_TYPES.LogicalExpression
+        leftNode.type === TSESTree.AST_NODE_TYPES.MemberExpression &&
+        leftNode.property.type !== TSESTree.AST_NODE_TYPES.PrivateIdentifier
       ) {
-        checkLogicalExpression(expressionNode.left, true);
-      } else if (
-        expressionNode.left.type === TSESTree.AST_NODE_TYPES.Identifier
-      ) {
-        checkIdentifier(expressionNode.left);
+        leftNode = leftNode.property;
       }
 
-      if (
-        checkRightNode &&
-        expressionNode.right.type === TSESTree.AST_NODE_TYPES.Identifier
-      ) {
-        checkIdentifier(expressionNode.right);
+      if (leftNode.type === TSESTree.AST_NODE_TYPES.LogicalExpression) {
+        checkLogicalExpression(leftNode, true);
+      } else if (leftNode.type === TSESTree.AST_NODE_TYPES.Identifier) {
+        const errorId = checkIdentifier(leftNode);
+        if (errorId) {
+          context.report({
+            node: expressionNode.left,
+            messageId: errorId,
+            fix: (fixer) => fixer.insertTextBefore(expressionNode.left, "!!"),
+          });
+        }
+      }
+
+      if (checkRightNode) {
+        let rightNode = expressionNode.right;
+        if (
+          rightNode.type === TSESTree.AST_NODE_TYPES.MemberExpression &&
+          rightNode.property.type !== TSESTree.AST_NODE_TYPES.PrivateIdentifier
+        ) {
+          rightNode = rightNode.property;
+        }
+
+        if (rightNode.type === TSESTree.AST_NODE_TYPES.Identifier) {
+          const errorId = checkIdentifier(rightNode);
+          if (errorId) {
+            context.report({
+              node: expressionNode.right,
+              messageId: errorId,
+              fix: (fixer) =>
+                fixer.insertTextBefore(expressionNode.right, "!!"),
+            });
+          }
+        }
       }
     }
 
