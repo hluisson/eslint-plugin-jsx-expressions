@@ -79,6 +79,8 @@ export default createRule<Options, MessageIds>({
       if (!options.allowNumber && hasPotentiallyFalseyNumber) {
         return "conditionErrorFalseyNumber";
       }
+
+      return;
     }
 
     function checkAndReportIdentifier(
