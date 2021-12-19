@@ -97,17 +97,29 @@ export default createRule<Options, MessageIds>({
       }
     }
 
+    // Return the core identifier or expression
+    function determineNode(originalNode: TSESTree.Expression) {
+      let nodeToEvaluate = originalNode;
+      if (nodeToEvaluate.type === TSESTree.AST_NODE_TYPES.ChainExpression) {
+        nodeToEvaluate = nodeToEvaluate.expression;
+      }
+
+      if (
+        nodeToEvaluate.type === TSESTree.AST_NODE_TYPES.MemberExpression &&
+        nodeToEvaluate.property.type !==
+          TSESTree.AST_NODE_TYPES.PrivateIdentifier
+      ) {
+        nodeToEvaluate = nodeToEvaluate.property;
+      }
+
+      return nodeToEvaluate;
+    }
+
     function checkLogicalExpression(
       expressionNode: TSESTree.LogicalExpression,
       checkRightNode: boolean
     ) {
-      let leftNode = expressionNode.left;
-      if (
-        leftNode.type === TSESTree.AST_NODE_TYPES.MemberExpression &&
-        leftNode.property.type !== TSESTree.AST_NODE_TYPES.PrivateIdentifier
-      ) {
-        leftNode = leftNode.property;
-      }
+      const leftNode = determineNode(expressionNode.left);
 
       if (leftNode.type === TSESTree.AST_NODE_TYPES.LogicalExpression) {
         checkLogicalExpression(leftNode, true);
@@ -116,13 +128,7 @@ export default createRule<Options, MessageIds>({
       }
 
       if (checkRightNode) {
-        let rightNode = expressionNode.right;
-        if (
-          rightNode.type === TSESTree.AST_NODE_TYPES.MemberExpression &&
-          rightNode.property.type !== TSESTree.AST_NODE_TYPES.PrivateIdentifier
-        ) {
-          rightNode = rightNode.property;
-        }
+        const rightNode = determineNode(expressionNode.right);
 
         if (rightNode.type === TSESTree.AST_NODE_TYPES.Identifier) {
           checkAndReportIdentifier(rightNode, expressionNode.right);
