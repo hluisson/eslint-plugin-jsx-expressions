@@ -97,6 +97,19 @@ ruleTester.run("strict-logical-expressions", rule, {
       options: [{ allowString: true }],
       filename: "react.tsx",
     },
+    {
+      code: [
+        'type Bar = "bar"',
+        "const obj: { foo: Bar } = { foo: 'bar' };",
+        "<App>{obj?.foo && <Foo/>}</App>",
+      ].join("\n"),
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      filename: "react.tsx",
+    },
   ],
   invalid: [
     {
@@ -245,6 +258,42 @@ ruleTester.run("strict-logical-expressions", rule, {
         'const first = { foo: "bar" };',
         'let second = "foo";',
         "<App>{first && !!second && <Foo/>}</App>",
+      ].join("\n"),
+      filename: "react.tsx",
+    },
+    {
+      code: [
+        "const first = 100;",
+        'const second = { foo: "bar" };',
+        "<App>{first && second?.foo && <Foo/>}</App>",
+      ].join("\n"),
+      errors: [{ messageId: "conditionErrorFalseyString" }],
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      output: [
+        "const first = 100;",
+        'const second = { foo: "bar" };',
+        "<App>{first && !!second?.foo && <Foo/>}</App>",
+      ].join("\n"),
+      filename: "react.tsx",
+    },
+    {
+      code: [
+        "const obj = { foo: 100 };",
+        "<App>{obj?.foo && <Foo/>}</App>",
+      ].join("\n"),
+      errors: [{ messageId: "conditionErrorFalseyNumber" }],
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      output: [
+        "const obj = { foo: 100 };",
+        "<App>{!!obj?.foo && <Foo/>}</App>",
       ].join("\n"),
       filename: "react.tsx",
     },
