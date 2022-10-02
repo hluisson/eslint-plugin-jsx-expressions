@@ -11,11 +11,11 @@ Examples of **incorrect** code for this rule:
 
 ```js
 // Potentially falsey strings are not allowed
-let str;
+let str = '';
 <App>{str && <Foo />}</App>;
 
 // Potentially falsey numbers are not allowed
-let num;
+let num = 0;
 <App>{num && <Foo />}</App>;
 
 // Includes types that may be a string or number
@@ -37,6 +37,10 @@ let str = "Foo";
 // Constant values are ok
 const str = "Foo";
 <App>{str && <Foo />}</App>;
+
+// Constant values are ok
+const num = 1;
+<App>{num && <Foo />}</App>;
 ```
 
 ### Options
