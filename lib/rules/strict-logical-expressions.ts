@@ -1,4 +1,4 @@
-import { ESLintUtils, TSESTree } from "@typescript-eslint/experimental-utils";
+import { ESLintUtils, TSESTree } from "@typescript-eslint/utils"
 import * as tsutils from "tsutils";
 import * as ts from "typescript";
 import { createRule } from "../util/createRule";
@@ -23,7 +23,7 @@ export default createRule<Options, MessageIds>({
   meta: {
     docs: {
       description: "Forbid non-boolean falsey values in inline expressions",
-      recommended: "error",
+      recommended: "strict",
     },
     fixable: "code",
     type: "problem",

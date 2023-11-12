@@ -1,4 +1,4 @@
-import { ESLintUtils } from "@typescript-eslint/experimental-utils";
+import { RuleTester } from "@typescript-eslint/rule-tester"; 
 import rule from "../../../lib/rules/strict-logical-expressions";
 import { getFixturesRootDir } from "../util";
 
@@ -6,7 +6,7 @@ import { getFixturesRootDir } from "../util";
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new ESLintUtils.RuleTester({
+const ruleTester = new RuleTester({
   parserOptions: {
     ecmaVersion: 6,
     sourceType: "module",

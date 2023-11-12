@@ -3,14 +3,9 @@
 // @ts-check
 /** @type {import('@jest/types').Config.InitialOptions} */
 module.exports = {
-  globals: {
-    'ts-jest': {
-      isolatedModules: true,
-    },
-  },
   testEnvironment: 'node',
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.tsx?$': ['ts-jest', { isolatedModules: true }],
   },
   testRegex: './tests/lib/.+\\.test\\.ts$',
   collectCoverage: false,
