@@ -38,4 +38,4 @@ Then configure the rules you want to use under the rules section.
 
 ## Supported Rules
 
-- [jsx-expressions/strict-logical-expressions](https://github.com/hpersson/eslint-plugin-jsx-expressions/blob/master/docs/rules/strict-logical-expressions.md): Enforces logical "&&" expressions do not use potentially falsey numbers or strings.
+- [jsx-expressions/strict-logical-expressions](https://github.com/hluisson/eslint-plugin-jsx-expressions/blob/master/docs/rules/strict-logical-expressions.md): Enforces logical "&&" expressions do not use potentially falsey numbers or strings.
